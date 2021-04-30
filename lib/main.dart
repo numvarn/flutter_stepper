@@ -56,6 +56,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       width: size.width,
       child: Stepper(
         currentStep: _index,
+        controlsBuilder: _createEventControlBuilder,
         onStepCancel: () {
           if (_index <= 0) {
             return;
@@ -110,5 +111,34 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         ],
       ),
     );
+  }
+
+  // * For orverride stepper button
+  Widget _createEventControlBuilder(BuildContext context,
+      {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: onStepCancel,
+              child: Text('BACK'),
+            ),
+          ],
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+        child: Column(
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: onStepContinue,
+              child: _index == 2 ? Text('SUBMIT') : Text("NEXT"),
+            ),
+          ],
+        ),
+      )
+    ]);
   }
 }
