@@ -17,6 +17,25 @@ class PersonalFormState extends State<PersonalForm> {
   static TextEditingController controllerDateOfBirth = TextEditingController();
   static TextEditingController controllerGender = TextEditingController();
 
+  /*
+    Date picker for select date of birth in Thai format
+  */
+  void _selectDateOfBirth(BuildContext context) {
+    DatePicker.showDatePicker(context,
+        theme: DatePickerTheme(
+          containerHeight: 210.0,
+        ),
+        showTitleActions: true,
+        minTime: DateTime(1970, 1, 1),
+        maxTime: DateTime(2022, 12, 31), onConfirm: (date) {
+      print('confirm $date');
+      _date = '${date.year} - ${date.month} - ${date.day}';
+      setState(() {
+        controllerDateOfBirth.text = _date.toString();
+      });
+    }, currentTime: DateTime.now(), locale: LocaleType.th);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,21 +98,7 @@ class PersonalFormState extends State<PersonalForm> {
                 ),
               ),
               controller: controllerDateOfBirth,
-              onTap: () {
-                DatePicker.showDatePicker(context,
-                    theme: DatePickerTheme(
-                      containerHeight: 210.0,
-                    ),
-                    showTitleActions: true,
-                    minTime: DateTime(1970, 1, 1),
-                    maxTime: DateTime(2022, 12, 31), onConfirm: (date) {
-                  print('confirm $date');
-                  _date = '${date.year} - ${date.month} - ${date.day}';
-                  setState(() {
-                    controllerDateOfBirth.text = _date.toString();
-                  });
-                }, currentTime: DateTime.now(), locale: LocaleType.th);
-              },
+              onTap: () => _selectDateOfBirth(context),
             ),
             SizedBox(height: 20),
             TextFormField(
